@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, CURSOR_FLAGS, ObjectId } = require('mongodb');
-const { query } = require('express');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -20,8 +19,9 @@ async function run() {
         const productCollection = client.db('smartBike').collection('product');
 
         app.get('/product', async (req, res) => {
-            const query = productCollection.find(query);
-            const products = await CURSOR_FLAGS.toArray();
+            const query = {}
+            const cursor = productCollection.find(query)
+            const products = await cursor.toArray()
             res.send(products)
         });
 
